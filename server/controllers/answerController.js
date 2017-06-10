@@ -4,10 +4,11 @@ const methods = {}
 //ANSWER ANSWER
 methods.insertAnswer = function(req, res){
   var answerInput = new db({
-    question_id:'5938ead9c5e90d242a70aeb5',
-    answer_by:'5938ea34c5e90d242a70aeb2',
+    question_id:req.body.question_id,
+    answer_by:req.decoded.id,
     description:req.body.description
   })
+  console.log('masuk controller', answerInput);
   answerInput.save(function(err,answerInput){
     if(err){
       res.send(err)

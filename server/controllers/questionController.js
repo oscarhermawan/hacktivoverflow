@@ -5,11 +5,18 @@ const methods = {}
 
 //INSERT QUESTIONS
 methods.insertQuestion = function(req, res){
-  db.create(req.body, function(err, data){
+  console.log('masuk insertQuestion', req.decoded);
+  console.log('masuk insertQuestion', req.body);
+  var questionInput = new db({
+    asked_by:req.decoded.id,
+    title:req.body.title,
+    description:req.body.description
+  })
+  questionInput.save(function(err,questionInput){
     if(err){
       res.send(err)
     } else {
-      res.send(data)
+      res.send(questionInput)
     }
   })
 }//INSERT QUESTIONS

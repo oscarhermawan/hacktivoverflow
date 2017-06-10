@@ -42,6 +42,7 @@
       }
     },
     created:function(){
+      // console.log('questiondetail');
       let self = this
       if(localStorage.getItem('token') == null){
         window.location.href = '/#/login'

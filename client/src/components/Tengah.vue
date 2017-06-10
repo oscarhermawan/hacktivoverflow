@@ -1,5 +1,29 @@
 <template>
   <div>
+
+    <!-- TAMBAH KOMENTAR -->
+    <article class="media">
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <img src="http://bulma.io/images/placeholders/128x128.png">
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="field">
+          <p class="control">
+            <input class="input is-primary" v-model="addTitle" type="text" placeholder="Add a Title">
+            <textarea class="textarea" v-model="addDescription" placeholder="Add a Description of Questions"></textarea>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <button class="button" @click="postQuestion">Post Question</button>
+          </p>
+        </div>
+      </div>
+    </article>
+    <!-- AKHIR TAMBAH KOMENTAR -->
+
     <article class="media" v-for="list in questions_list">
       <!-- PERTANYAAN -->
       <figure class="media-left">
@@ -18,55 +42,8 @@
           </p>
         </div>
         <!-- AKHIR PERTANYAAN -->
-
-        <!-- LIST KOMENTAR -->
-        <div v-for="listAnswer in answers_list">
-          <div v-if="listAnswer.question_id._id == list._id">
-            <article class="media">
-              <figure class="media-left">
-                <p class="image is-48x48">
-                  <img :src="listAnswer.answer_by.photo">
-                </p>
-              </figure>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>{{listAnswer.answer_by.name}}</strong>
-                    <br>
-                    {{listAnswer.description}}
-                    <br>
-                    <small><a>Vote</a> · <a>Delete</a> · 2 hrs</small>
-                  </p>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-        <!-- AKHIR LIST KOMENTAR -->
-
-
-        <!-- TAMBAH KOMENTAR -->
-        <!-- <article class="media">
-          <figure class="media-left">
-            <p class="image is-64x64">
-              <img src="http://bulma.io/images/placeholders/128x128.png">
-            </p>
-          </figure>
-          <div class="media-content">
-            <div class="field">
-              <p class="control">
-                <textarea class="textarea" placeholder="Add a comment..."></textarea>
-              </p>
-            </div>
-            <div class="field">
-              <p class="control">
-                <button class="button" @click="postComment">Post comment</button>
-              </p>
-            </div>
-          </div>
-        </article> -->
-        <!-- AKHIR TAMBAH KOMENTAR -->
       </div>
+
     </article>
    </div> <!-- DIV UTAMA DARI VUE -->
 </template>
@@ -78,7 +55,9 @@ import axios from 'axios';
   export default {
     data(){
       return{
-        listsQuestion:''
+        listsQuestion:'',
+        addTitle:'',
+        addDescription:''
       }
     },
     methods:{
@@ -87,10 +66,24 @@ import axios from 'axios';
           name:'question-detail',
           params:{ id : list._id }
         })
+      },
+      postQuestion(){
+        let addQuestion = {
+          title:this.addTitle,
+          description:this.addDescription
+        }
+        this.$store.dispatch('ADD_QUESTION', { addQuestion })
+          .then(response=>{
+            console.log('hasil dispatch',response);
+          })
+          .catch(error=>{
+            console.log(error);
+          })
       }
     },
     computed: mapState([
-      'questions_list', 'answers_list'
+      'questions_list',
+      'answers_list'
     ])
   }
 </script>

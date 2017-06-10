@@ -42,13 +42,37 @@ const store = new Vuex.Store({
           console.log(err)
       })
     },
+    ADD_QUESTION({ commit }, { addQuestion }) {
+      axios.post('http://localhost:3000/questions', addQuestion, { headers: { token: localStorage.getItem('token')}})
+      .then((response) =>{
+        commit('ADD_QUESTION', { result : response.data })
+      }, (err) => {
+        console.log(err)
+      })
+    },
+    ADD_ANSWER({ commit }, { addAnswer }) {
+      axios.post('http://localhost:3000/answers', addAnswer, { headers: { token: localStorage.getItem('token')}})
+      .then((response) =>{
+        commit('ADD_ANSWER', { result : response.data })
+      }, (err) => {
+        console.log(err)
+      })
+    }
   },
   mutations: {
     SET_QUESTIONS_LIST: (state, { list }) => {
+      // console.log('masuk mutation', list);
       state.questions_list = list
+      console.log('masuk mutationino', state.questions_list);
     },
     SET_ANSWERS_LIST: (state, { list }) => {
       state.answers_list = list
+    },
+    ADD_QUESTION (state, { result }) {
+      state.questions_list.push(result)
+    },
+    ADD_ANSWER (state, { result }) {
+      state.answers_list.push(result)
     }
   },
   getters: {

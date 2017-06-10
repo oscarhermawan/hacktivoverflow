@@ -43,7 +43,29 @@
           </div>
         </div>
         <!-- AKHIR LIST KOMENTAR -->
-        
+
+        <!-- TAMBAH KOMENTAR -->
+        <article class="media">
+          <figure class="media-left">
+            <p class="image is-64x64">
+              <img src="http://bulma.io/images/placeholders/128x128.png">
+            </p>
+          </figure>
+          <div class="media-content">
+            <div class="field">
+              <p class="control">
+                <textarea class="textarea" v-model="addAnswer" placeholder="Add a comment..."></textarea>
+              </p>
+            </div>
+            <div class="field">
+              <p class="control">
+                <button class="button" @click="postAnswer(list)">Post comment</button>
+              </p>
+            </div>
+          </div>
+        </article>
+        <!-- AKHIR TAMBAH KOMENTAR -->
+
       </div>
     </article>
    </div> <!-- DIV UTAMA DARI VUE -->
@@ -57,16 +79,26 @@ import axios from 'axios';
     data(){
       return{
         params:'',
-        listsQuestion:''
+        addAnswer:''
       }
     },
     methods:{
-      postComment(){
+      postAnswer(list){
+        let addAnswer = {
+          question_id:list._id,
+          description:this.addAnswer
+        }
+        this.$store.dispatch('ADD_ANSWER', { addAnswer })
+          .then(response=>{
 
+          })
+          .catch(error=>{
+            console.log(error);
+          })
       }
     },
     created(){
-
+      
     },
     computed: mapState([
       'questions_list', 'answers_list'
