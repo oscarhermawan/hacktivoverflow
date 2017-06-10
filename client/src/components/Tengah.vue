@@ -38,7 +38,7 @@
             <br>
             {{list.description}}
             <br>
-            <small><a>Vote</a> · <a>Delete</a> · 3 hrs</small>
+            <small><a>Vote</a> · <a @click="deleteQuestion(list)">Delete</a> · 3 hrs</small>
           </p>
         </div>
         <!-- AKHIR PERTANYAAN -->
@@ -74,11 +74,19 @@ import axios from 'axios';
         }
         this.$store.dispatch('ADD_QUESTION', { addQuestion })
           .then(response=>{
-            console.log('hasil dispatch',response);
+            this.addTitle=''
+            this.addDescription=''
           })
           .catch(error=>{
             console.log(error);
           })
+      },
+      deleteQuestion(list){
+        let deleteQuestion = {
+          id:list._id,
+          asked_by:list.asked_by._id
+        }
+        this.$store.dispatch('DELETE_QUESTION', { deleteQuestion })
       }
     },
     computed: mapState([

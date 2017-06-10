@@ -57,7 +57,25 @@ const store = new Vuex.Store({
       }, (err) => {
         console.log(err)
       })
-    }
+    },
+    DELETE_QUESTION({ commit }, { deleteQuestion }) {
+      axios.delete(`http://localhost:3000/questions/${deleteQuestion.id}`, { headers:
+        {
+          token: localStorage.getItem('token'),
+          asked_by: deleteQuestion.asked_by
+        }
+      })
+      .then((response) =>{
+        if(response.data == 'Gagal'){
+          alert('Anda Tidak Punya Akses')
+        }
+        else{
+          commit('DELETE_QUESTION', { result : response.data })
+        }
+      }, (err) => {
+        console.log(err)
+      })
+    },
   },
   mutations: {
     SET_QUESTIONS_LIST: (state, { list }) => {
@@ -69,11 +87,16 @@ const store = new Vuex.Store({
       state.answers_list = list
     },
     ADD_QUESTION (state, { result }) {
+      console.log('result mutation', result);
       state.questions_list.push(result)
     },
     ADD_ANSWER (state, { result }) {
       state.answers_list.push(result)
-    }
+    },
+    DELETE_QUESTION (state, { result }) {
+      let idx = state.questions_list.map(p => p._id).indexOf(result._id)
+      state.questions_list.splice(idx, 1)
+    },
   },
   getters: {
     openQuestions: state => {
