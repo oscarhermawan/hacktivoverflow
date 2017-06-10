@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data () {
     return {
@@ -47,7 +48,22 @@ export default {
   },
   methods:{
     loginLocal:function(){
-
+      axios.post('http://localhost:3000/users/signin',{
+        username:this.username,
+        password:this.password
+      })
+      .then((result)=>{
+        if(result.data.token == null){
+          console.log('token',result.data.message);
+        }
+        else {
+          localStorage.setItem('token', result.data.token)
+          window.location.href = '/#/'
+        }
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
     }
   }
 }

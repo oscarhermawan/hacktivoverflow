@@ -1,26 +1,33 @@
+var db = require('../models/answer')
 const methods = {}
 
 //ANSWER ANSWER
-methods.insertAnswer = function(req,res){
-  db.findById(req.params.id)
-  .exec((error, record)=>{
-    if(error){
-      console.log('ga masuk');
-      res.send(error)
+methods.insertAnswer = function(req, res){
+  var answerInput = new db({
+    question_id:'5938ead9c5e90d242a70aeb5',
+    answer_by:'5938ea34c5e90d242a70aeb2',
+    description:req.body.description
+  })
+  answerInput.save(function(err,answerInput){
+    if(err){
+      res.send(err)
     } else {
-      console.log('masuk sini');
-      console.log(req.body);
-      record.answers.push(req.body)
-      record.save((error, record)=>{
-        if(error){
-          res.send(error)
-        } else {
-          res.send(record)
-        }
-      })
+      res.send(answerInput)
     }
   })
 }
+
+methods.getAll =function(req,res){
+  db.find({})
+  .populate('question_id answer_by', 'name photo')
+  .exec((error, records)=>{
+    if(error){
+      res.send(error)
+    } else {
+      res.send(records)
+    }
+  })
+}//GET ALL
 
 //DELETE ANSWER
 methods.deleteAnswer = function(req, res){

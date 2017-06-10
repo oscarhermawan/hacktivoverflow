@@ -13,7 +13,7 @@ var voteSchema = new Schema({
 }, {_id:false})
 
 var answerSchema = new Schema({
-  asked_by :{
+  question_id :{
     type: Schema.Types.ObjectId,
     ref:'Question'
   },

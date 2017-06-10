@@ -31,7 +31,7 @@ methods.getById = function(req,res){
 //GET ALL
 methods.getAll =function(req,res){
   db.find({})
-  .populate('asked_by votes.voted_by answers.answer_by', 'username')
+  .populate('asked_by votes.voted_by', 'name photo')
   .exec((error, records)=>{
     if(error){
       res.send(error)

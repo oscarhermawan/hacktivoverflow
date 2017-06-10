@@ -22,6 +22,9 @@ var userSchema = new Schema({
   member_id:{
     type:String
   },
+  email:{
+    type:String
+  },
   createdAt:{
     type:Date,
     default:Date.now
