@@ -34,7 +34,8 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{list.asked_by.name}}, <a @click="detailQuestion(list)">{{list.title}}</a></strong>
+            <strong>{{list.asked_by.name}}<br>
+              <a @click="detailQuestion(list)">{{list.title}}</a></strong>
             <br>
             {{list.description}}
             <br>

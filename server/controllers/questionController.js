@@ -16,7 +16,15 @@ methods.insertQuestion = function(req, res){
     if(err){
       res.send(err)
     } else {
-      res.send(questionInput)
+      db.findOne({_id:questionInput._id})
+      .populate('asked_by votes.voted_by', 'name photo')
+      .exec((error, records)=>{
+        if(error){
+          res.send(error)
+        } else {
+          res.send(records)
+        }
+      })
     }
   })
 }//INSERT QUESTIONS
@@ -65,7 +73,7 @@ methods.updateQuestion = function(req,res) {
 methods.deleteQuestion = function(req,res) {
   db.findByIdAndRemove(req.params.id, function(err, result){
     if(!err){
-      res.send('berhasil hapus')
+      res.send(result)
     } else {
       res.send(err)
     }

@@ -35,7 +35,7 @@
                     <br>
                     {{listAnswer.description}}
                     <br>
-                    <small><a>Vote</a> · <a>Delete</a> · 2 hrs</small>
+                    <small><a>Vote</a> · <a @click="deleteAnswer(listAnswer)">Delete</a> · 2 hrs</small>
                   </p>
                 </div>
               </div>
@@ -95,10 +95,18 @@ import axios from 'axios';
           .catch(error=>{
             console.log(error);
           })
+      },
+      deleteAnswer(listAnswer){
+        let deleteAnswer = {
+          id:listAnswer._id,
+          answer_by:listAnswer.answer_by._id
+        }
+        console.log(deleteAnswer);
+        this.$store.dispatch('DELETE_ANSWER', { deleteAnswer })
       }
     },
     created(){
-      
+
     },
     computed: mapState([
       'questions_list', 'answers_list'

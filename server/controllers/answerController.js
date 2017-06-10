@@ -43,15 +43,27 @@ methods.getAll =function(req,res){
 }//GET ALL
 
 //DELETE ANSWER
-methods.deleteAnswer = function(req, res){
-  db.findByIdAndUpdate(req.params.id, {$pull: { answers: { _id: req.params.idAnswer} }})
-  .exec((error, record)=>{
-    if(error){
-      res.send(error)
+
+//DELETE ANSWER
+methods.deleteAnswer = function(req,res) {
+  db.findByIdAndRemove(req.params.id, function(err, result){
+    if(!err){
+      res.send(result)
     } else {
-      res.send(record)
+      res.send(err)
     }
   })
-}
+}//DELETE ANSWER
+//
+// methods.deleteAnswer = function(req, res){
+//   db.findByIdAndUpdate(req.params.id, {$pull: { answers: { _id: req.params.idAnswer} }})
+//   .exec((error, record)=>{
+//     if(error){
+//       res.send(error)
+//     } else {
+//       res.send(record)
+//     }
+//   })
+// }
 
 module.exports = methods

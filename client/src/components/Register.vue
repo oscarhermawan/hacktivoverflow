@@ -3,8 +3,8 @@
     <div class="login">
       <div class="tabs is-medium">
         <ul>
-          <li class="is-active"><a>Login</a></li>
-          <li><a href="register">Register</a></li>
+          <li><a>Login</a></li>
+          <li class="is-active"><a>Register</a></li>
         </ul>
       </div>
 
@@ -28,6 +28,15 @@
 
       <div class="columns">
         <div class="column is-one-quarter">
+          <label class="label">Name</label>
+        </div>
+        <div class="column">
+          <input class="input" type="text" placeholder="Text input" v-model="name">
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-one-quarter">
         </div>
         <div class="column">
           <a class="button is-info" @click="loginLocal">Login</a>
@@ -43,23 +52,20 @@ export default {
   data () {
     return {
       username:'',
-      password:''
+      password:'',
+      name:''
     }
   },
   methods:{
     loginLocal:function(){
-      axios.post('http://localhost:3000/users/signin',{
+      axios.post('http://localhost:3000/users',{
         username:this.username,
-        password:this.password
+        password:this.password,
+        name:this.name
       })
       .then((result)=>{
-        if(result.data.token == null){
-          console.log('token',result.data.message);
-        }
-        else {
-          localStorage.setItem('token', result.data.token)
-          window.location.href = '/#/'
-        }
+        alert('Success Register ID')
+
       })
       .catch((err)=>{
         console.log(err);
