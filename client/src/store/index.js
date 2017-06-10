@@ -24,7 +24,24 @@ const store = new Vuex.Store({
         },(err) => {
           console.log(err)
       })
-    }
+    },
+    LOAD_QUESTIONS_DETAIL({ commit }, { idquestion }) {
+      axios.get(`http://localhost:3000/questions/${idquestion}`)
+      .then((response) => {
+          commit('SET_QUESTIONS_LIST', { list: response.data })
+        },(err) => {
+          console.log(err)
+      })
+    },
+    LOAD_ANSWERS_DETAIL({ commit }, { idquestion }) {
+      axios.get(`http://localhost:3000/answers/question/${idquestion}`)
+      .then((response) => {
+        console.log('answer', response);
+          commit('SET_ANSWERS_LIST', { list: response.data })
+        },(err) => {
+          console.log(err)
+      })
+    },
   },
   mutations: {
     SET_QUESTIONS_LIST: (state, { list }) => {

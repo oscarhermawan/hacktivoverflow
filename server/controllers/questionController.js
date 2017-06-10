@@ -17,8 +17,8 @@ methods.insertQuestion = function(req, res){
 
 //GET ONE BY ID
 methods.getById = function(req,res){
-  db.findOne({_id:req.params.id})
-  .populate('asked_by votes.voted_by answers.answer_by', 'username')
+  db.find({_id:req.params.id})
+  .populate('asked_by votes.voted_by', 'name photo')
   .exec((error, records)=>{
     if(error){
       res.send(error)

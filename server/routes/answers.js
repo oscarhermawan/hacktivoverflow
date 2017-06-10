@@ -4,6 +4,7 @@ const api = require('../controllers/answerController')
 
 //ANSWERS
 router.get('/', api.getAll) // :id = id dari ask
+router.get('/question/:id', api.getByIdQuestion) // Get from id ask
 router.post('/', api.insertAnswer) // :id = id dari ask
 router.delete('/:id/answer/:idAnswer', api.deleteAnswer)  //:id = id dari ask
 

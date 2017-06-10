@@ -17,6 +17,18 @@ methods.insertAnswer = function(req, res){
   })
 }
 
+methods.getByIdQuestion =function(req,res){
+  db.find({'question_id._id':req.headers.id})
+  .populate('question_id answer_by', 'name photo')
+  .exec((error, records)=>{
+    if(error){
+      res.send(error)
+    } else {
+      res.send(records)
+    }
+  })
+}
+
 methods.getAll =function(req,res){
   db.find({})
   .populate('question_id answer_by', 'name photo')

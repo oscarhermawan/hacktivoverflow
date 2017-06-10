@@ -10,7 +10,7 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{list.asked_by.name}}, <a @click="detailQuestion(list)">{{list.title}}</a></strong>
+            <strong>{{list.asked_by.name}}, {{list.title}}</strong>
             <br>
             {{list.description}}
             <br>
@@ -43,29 +43,7 @@
           </div>
         </div>
         <!-- AKHIR LIST KOMENTAR -->
-
-
-        <!-- TAMBAH KOMENTAR -->
-        <!-- <article class="media">
-          <figure class="media-left">
-            <p class="image is-64x64">
-              <img src="http://bulma.io/images/placeholders/128x128.png">
-            </p>
-          </figure>
-          <div class="media-content">
-            <div class="field">
-              <p class="control">
-                <textarea class="textarea" placeholder="Add a comment..."></textarea>
-              </p>
-            </div>
-            <div class="field">
-              <p class="control">
-                <button class="button" @click="postComment">Post comment</button>
-              </p>
-            </div>
-          </div>
-        </article> -->
-        <!-- AKHIR TAMBAH KOMENTAR -->
+        
       </div>
     </article>
    </div> <!-- DIV UTAMA DARI VUE -->
@@ -78,16 +56,17 @@ import axios from 'axios';
   export default {
     data(){
       return{
+        params:'',
         listsQuestion:''
       }
     },
     methods:{
-      detailQuestion(list){
-        this.$router.push({
-          name:'question-detail',
-          params:{ id : list._id }
-        })
+      postComment(){
+
       }
+    },
+    created(){
+
     },
     computed: mapState([
       'questions_list', 'answers_list'
