@@ -3,7 +3,7 @@
     <div class="login">
       <div class="tabs is-medium">
         <ul>
-          <li><a>Login</a></li>
+          <li><a href="/#/login">Login</a></li>
           <li class="is-active"><a>Register</a></li>
         </ul>
       </div>
@@ -65,7 +65,7 @@ export default {
       })
       .then((result)=>{
         alert('Success Register ID')
-
+        window.location.href = '/#/login'
       })
       .catch((err)=>{
         console.log(err);

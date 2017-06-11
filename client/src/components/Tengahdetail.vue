@@ -10,7 +10,7 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <strong>{{list.asked_by.name}}, {{list.title}}</strong>
+            <strong>{{list.asked_by.name}} : {{list.title}}</strong>
             <br>
             {{list.description}}
             <br>
@@ -89,12 +89,6 @@ import axios from 'axios';
           description:this.addAnswer
         }
         this.$store.dispatch('ADD_ANSWER', { addAnswer })
-          .then(response=>{
-
-          })
-          .catch(error=>{
-            console.log(error);
-          })
       },
       deleteAnswer(listAnswer){
         let deleteAnswer = {

@@ -10,7 +10,7 @@ const api = require('./controllers/userController')
 
 app.use(cors())
 
-mongoose.connect('mongodb://localhost/stackoverflow123', (err)=>{
+mongoose.connect('mongodb://localhost/stackoverflow1234567', (err)=>{
   if(err){
     console.log(err);
   } else {

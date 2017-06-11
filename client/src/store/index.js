@@ -58,6 +58,14 @@ const store = new Vuex.Store({
         console.log(err)
       })
     },
+    EDIT_QUESTION({ commit }, { editQuestion }) {
+      axios.put(`http://localhost:3000/questions/${editQuestion.idQuestion}`, editQuestion, { headers: { token: localStorage.getItem('token')}})
+      .then((response) =>{
+        commit('EDIT_QUESTION', { result : response.data })
+      }, (err) => {
+        console.log(err)
+      })
+    },
     DELETE_QUESTION({ commit }, { deleteQuestion }) {
       axios.delete(`http://localhost:3000/questions/${deleteQuestion.id}`, { headers:
         {
@@ -96,10 +104,9 @@ const store = new Vuex.Store({
       })
     },
     VOTE_QUESTION({ commit }, { voteQuestion }) {
-      console.log('voteQuestion', voteQuestion);
       axios.post('http://localhost:3000/questions/vote', voteQuestion, { headers: { token: localStorage.getItem('token')}})
       .then((response) =>{
-        // commit('ADD_ANSWER', { result : response.data })
+        commit('VOTE_QUESTION', { result : response.data })
       }, (err) => {
         console.log(err)
       })
@@ -120,6 +127,10 @@ const store = new Vuex.Store({
     ADD_ANSWER (state, { result }) {
       state.answers_list.push(result)
     },
+    EDIT_QUESTION (state, { result }) {
+      let idx = state.questions_list.map(p => p._id).indexOf(result._id)
+      state.questions_list.splice(idx, 1, result)
+    },
     DELETE_QUESTION (state, { result }) {
       let idx = state.questions_list.map(p => p._id).indexOf(result._id)
       state.questions_list.splice(idx, 1)
@@ -128,6 +139,10 @@ const store = new Vuex.Store({
       let idx = state.answers_list.map(p => p._id).indexOf(result._id)
       state.answers_list.splice(idx, 1)
     },
+    VOTE_QUESTION (state, { result }) {
+      let idx = state.questions_list.map(p => p._id).indexOf(result._id)
+      state.questions_list.splice(idx, 1, result)
+    }
   },
   getters: {
     openQuestions: state => {

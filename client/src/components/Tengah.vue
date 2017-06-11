@@ -39,13 +39,34 @@
             <br>
             {{list.description}}
             <br>
-            <small><a @click="voteQuestion(list)">Vote : {{list.votes.length}}</a> * <a @click="deleteQuestion(list)">Delete</a> · 3 hrs</small>
+            <small><a @click="voteQuestion(list)">Vote : {{list.votes.length}}</a> * <a @click="checkIdForEdit(list)"> Update </a> * <a @click="deleteQuestion(list)">Delete</a> </small>
           </p>
         </div>
 
       </div>
     </article>
     <!-- AKHIR PERTANYAAN -->
+
+    <!-- LOGIN -->
+   <div :class="modalEdit">
+     <div class="modal-background"></div>
+     <div class="modal-card">
+       <header class="modal-card-head">
+         <p class="modal-card-title">Masuk</p>
+         <button class="delete"></button>
+       </header>
+       <section class="modal-card-body">
+           <input class="input" type="text" v-model="editTitle" placeholder="Add a Title">
+           <input class="input" type="text" v-model="editDescription" placeholder="Add a Description of Questions">
+       </section>
+       <footer class="modal-card-foot">
+           <button class="button is-success" name="button" @click="updateQuestion"> Edit Question </button>
+         <a class="button" @click="closeModal">Cancel</a>
+       </footer>
+     </div>
+   </div>
+   <!-- END LOGIN -->
+
 
    </div> <!-- DIV UTAMA DARI VUE -->
 </template>
@@ -59,7 +80,11 @@ import axios from 'axios';
       return{
         listsQuestion:'',
         addTitle:'',
-        addDescription:''
+        addDescription:'',
+        editTitle:'',
+        editDescription:'',
+        modalEdit:'modal',
+        idQuestion:''
       }
     },
     methods:{
@@ -95,6 +120,40 @@ import axios from 'axios';
           idquestion: list._id
         }
         this.$store.dispatch('VOTE_QUESTION', { voteQuestion })
+      },
+      checkIdForEdit(list){
+        console.log('listnya',list);
+        let self = this
+        axios.get(`http://localhost:3000/questions/check/${list.asked_by._id}`, {headers : {token:localStorage.getItem('token')}})
+        .then((response)=>{
+          if(response.data == 'Berhasil'){
+            self.editTitle=list.title
+            self.editDescription=list.description
+            self.idQuestion=list._id
+            self.modalEdit = "modal is-active"
+          } else {
+            alert('Anda Tidak Punya Akses')
+          }
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
+      },
+      updateQuestion(){
+        let editQuestion = {
+          idQuestion:this.idQuestion,
+          title:this.editTitle,
+          description:this.editDescription
+        }
+        this.$store.dispatch('EDIT_QUESTION', { editQuestion })
+        .then((result)=>{
+          this.idQuestion=''
+          this.modalEdit='modal'
+        })
+      },
+      closeModal(){
+        this.idQuestion=''
+        this.modalEdit='modal'
       }
     },
     computed: mapState([

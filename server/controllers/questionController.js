@@ -5,8 +5,6 @@ const methods = {}
 
 //INSERT QUESTIONS
 methods.insertQuestion = function(req, res){
-  console.log('masuk insertQuestion', req.decoded);
-  console.log('masuk insertQuestion', req.body);
   var questionInput = new db({
     asked_by:req.decoded.id,
     title:req.body.title,
@@ -58,16 +56,30 @@ methods.getAll =function(req,res){
 
 //UPDATE QUESTIONS
 methods.updateQuestion = function(req,res) {
-  db.findByIdAndUpdate(req.params.id, {$set : req.body }, {new:true})
-  .exec((error, record)=>{
-    if(error){
-      res.send(error)
-    } else {
-      res.send(record)
+  db.findById(req.body.idQuestion, function(err, result){
+    var update = {
+      asked_by:result.asked_by,
+      title:req.body.title || result.title,
+      description:req.body.description || result.description,
+      votes:result.votes
     }
+    db.findByIdAndUpdate(req.body.idQuestion, update, {new:true}, function(error, data){
+      if(!err){
+        db.findOne({_id:data._id})
+        .populate('asked_by votes.voted_by', 'name photo')
+        .exec((gagal, hasil)=>{
+          if(error){
+            res.send(gagal)
+          } else {
+            res.send(hasil)
+          }
+        })
+      }else{
+        res.send(error)
+      }
+    })
   })
 }//UPDATE QUESTIONS
-
 
 //DELETE QUESTIONS
 methods.deleteQuestion = function(req,res) {
@@ -80,7 +92,6 @@ methods.deleteQuestion = function(req,res) {
   })
 }//DELETE QUESTIONS
 
-////////////////////////////////////////////////////////////////////////////////
 
 //VOTE QUESTIONS
 methods.voteQuestion = function(req,res){
@@ -90,18 +101,29 @@ methods.voteQuestion = function(req,res){
       res.send(error)
     } else {
       let exist = record.votes.some(val=>{
-        return val.voted_by == req.body.voted_by
+        return val.voted_by == req.decoded.id
       })
 
       if(exist){
         res.json({error:true, message:'You have already voted'})
       } else {
-        record.votes.push(req.body)
+        let votes = {
+          voted_by:req.decoded.id
+        }
+        record.votes.push(votes)
         record.save((error, record)=>{
           if(error){
             res.send(error)
           } else {
-            res.send(record)
+            db.findOne({_id:record._id})
+            .populate('asked_by votes.voted_by', 'name photo')
+            .exec((error, records)=>{
+              if(error){
+                res.send(error)
+              } else {
+                res.send(records)
+              }
+            })
           }
         })
       }

@@ -4,7 +4,7 @@
       <div class="tabs is-medium">
         <ul>
           <li class="is-active"><a>Login</a></li>
-          <li><a href="register">Register</a></li>
+          <li><a href="/#/register">Register</a></li>
         </ul>
       </div>
 
