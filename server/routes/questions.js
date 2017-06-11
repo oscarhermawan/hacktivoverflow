@@ -8,6 +8,7 @@ router.get('/:id', api.getById)
 router.post('/', jwt.verifyToken, api.insertQuestion)
 router.put('/:id', api.updateQuestion)
 router.delete('/:id', jwt.verifyUpdateDelete, api.deleteQuestion)
+router.post('/vote', jwt.verifyToken, api.voteQuestion)
 
 //VOTE UP
 router.post('/:id/vote', api.voteQuestion)

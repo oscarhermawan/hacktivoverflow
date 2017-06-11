@@ -77,7 +77,6 @@ const store = new Vuex.Store({
       })
     },
     DELETE_ANSWER({ commit }, { deleteAnswer }) {
-      console.log('masuk actions');
       axios.delete(`http://localhost:3000/answers/${deleteAnswer.id}`, { headers:
         {
           token: localStorage.getItem('token'),
@@ -95,7 +94,16 @@ const store = new Vuex.Store({
       }, (err) => {
         console.log(err)
       })
-    }
+    },
+    VOTE_QUESTION({ commit }, { voteQuestion }) {
+      console.log('voteQuestion', voteQuestion);
+      axios.post('http://localhost:3000/questions/vote', voteQuestion, { headers: { token: localStorage.getItem('token')}})
+      .then((response) =>{
+        // commit('ADD_ANSWER', { result : response.data })
+      }, (err) => {
+        console.log(err)
+      })
+    },
   },
   mutations: {
     SET_QUESTIONS_LIST: (state, { list }) => {

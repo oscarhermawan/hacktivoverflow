@@ -24,8 +24,8 @@
     </article>
     <!-- AKHIR TAMBAH KOMENTAR -->
 
+    <!-- PERTANYAAN -->
     <article class="media" v-for="list in questions_list">
-      <!-- PERTANYAAN -->
       <figure class="media-left">
         <p class="image is-64x64">
           <img :src="list.asked_by.photo">
@@ -39,13 +39,14 @@
             <br>
             {{list.description}}
             <br>
-            <small><a>Vote</a> · <a @click="deleteQuestion(list)">Delete</a> · 3 hrs</small>
+            <small><a @click="voteQuestion(list)">Vote : {{list.votes.length}}</a> * <a @click="deleteQuestion(list)">Delete</a> · 3 hrs</small>
           </p>
         </div>
-        <!-- AKHIR PERTANYAAN -->
-      </div>
 
+      </div>
     </article>
+    <!-- AKHIR PERTANYAAN -->
+
    </div> <!-- DIV UTAMA DARI VUE -->
 </template>
 
@@ -88,6 +89,12 @@ import axios from 'axios';
           asked_by:list.asked_by._id
         }
         this.$store.dispatch('DELETE_QUESTION', { deleteQuestion })
+      },
+      voteQuestion(list){
+        let voteQuestion = {
+          idquestion: list._id
+        }
+        this.$store.dispatch('VOTE_QUESTION', { voteQuestion })
       }
     },
     computed: mapState([

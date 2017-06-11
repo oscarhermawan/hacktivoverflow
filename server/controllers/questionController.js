@@ -84,7 +84,7 @@ methods.deleteQuestion = function(req,res) {
 
 //VOTE QUESTIONS
 methods.voteQuestion = function(req,res){
-  db.findById(req.params.id)
+  db.findById(req.body.idquestion)
   .exec((error, record)=>{
     if(error){
       res.send(error)

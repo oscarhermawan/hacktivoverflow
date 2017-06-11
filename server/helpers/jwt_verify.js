@@ -3,6 +3,8 @@ var jwt = require('jsonwebtoken')
 var methods = {}
 
 methods.verifyToken = function (req, res, next){
+  // console.log('body', req.body.idquestion);
+  // console.log('headers', req.headers);
   jwt.verify(req.headers.token, 'secret', (err, decoded)=>{
     if(decoded){
       req.decoded = decoded
