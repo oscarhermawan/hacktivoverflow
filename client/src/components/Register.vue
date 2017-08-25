@@ -39,7 +39,7 @@
         <div class="column is-one-quarter">
         </div>
         <div class="column">
-          <a class="button is-info" @click="loginLocal">Login</a>
+          <a class="button is-info" @click="loginLocal">Register</a>
         </div>
       </div>
     </div>
